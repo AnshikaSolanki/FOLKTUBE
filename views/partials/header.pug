@@ -1,0 +1,22 @@
+header.header 
+    .header__wrapper
+        .header__column
+            a(href=routes.home)
+                i.lni.lni-youtube
+        .header__column 
+            form(action=routes.search, method="get")
+                input(type="text", placeholder="Search by term...", name="term")
+        .header__column
+            ul 
+                if !loggedUser
+                    li 
+                        a(href=routes.join) Join 
+                    li
+                        a(href=routes.login) LogIn
+                else
+                    li 
+                        a(href=`/videos${routes.upload}`) Upload
+                    li 
+                        a(href=routes.me) Profile
+                    li 
+                        a(href=routes.logout) LogOut

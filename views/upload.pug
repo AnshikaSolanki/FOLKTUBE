@@ -1,0 +1,15 @@
+extends layouts/main 
+
+block content 
+    .form__container 
+        .video-recorder#jsvideoRecorder
+            video#jsvideoPreview
+            button#jsrecorderButton Start Recording
+        form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
+            .fileupload
+                label(for="videoFile") Video File 
+                input(type="file", id="videoFile", name="videoFile", required=true, accept="Video/*")
+            input(type="text", placeholder="Title", name="title", required=true)
+            input(type="text", placeholder="Description", name="description", required=true)
+            input(type="submit", value="Upload Video")
+        

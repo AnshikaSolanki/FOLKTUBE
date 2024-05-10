@@ -1,0 +1,40 @@
+extends layouts/main 
+include mixins/videoPlayer
+
+block content 
+    .videos-detail__container 
+        +videoPlayer({
+            src: videos.fileUrl 
+        })
+        .videos__info 
+            if loggedUser && videos.creator.id === loggedUser.id
+                a(href=routes.editVideo(videos.id)) 
+                    button Edit Video
+            h5.videos__title=videos.title 
+            if videos.views === 1
+                span.videos__view 1 view 
+            else 
+                span.videos__view #{videos.views} views
+            p.videos__description=videos.description 
+            .videos__author 
+                |Uploaded By 
+                a(href=`${routes.userDetail(videos.creator.id)}`)=videos.creator.name
+        .videos__comments 
+            if videos.comments.length === 1
+                span.videos__comment-number 
+                    span#comment__number 1 
+                    |  comment! 
+            else 
+                span.videos__comments-number 
+                    span#comment__number=videos.comments.length 
+                    |  comments!
+            form.add__comment#jsAddComment
+                input(type="text", placeholder="Add a Comment!", name="comment") 
+            ul.videos__comments-list#jsCommentList
+                each comment in videos.comments.reverse()
+                    if loggedUser && videos.creator.id === loggedUser.id
+                        .deletecomment#deleteCommentIcon
+                            a(href=routes.deleteComment)
+                                i.lni.lni-cross-circle
+                    li 
+                        span=comment.text
